@@ -3,8 +3,15 @@ git status
 git add
 git commit -m ""
 git restore
+git log
 
 git remote -v
 git remote add origin 
 git remote set-url origin
 git push origin master
+git pull origin master
+
+git branch
+git checkout BRANCH-NAME
+git merge BRANCH-NAME
+git branch -d BRANCH-NAME
