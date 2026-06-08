@@ -1,10 +1,3 @@
-================================================================
-           LINUX COMMANDS REFERENCE — FLAGS & USAGE
-================================================================
-
-----------------------------------------------------------------
-TEXT PROCESSING
-----------------------------------------------------------------
 
 awk
   Pattern scanning and text processing — column extraction,
@@ -76,9 +69,6 @@ uniq  [already in your list]
   -u            Print only unique lines
   -i            Case-insensitive comparison
 
-----------------------------------------------------------------
-FILE & PERMISSIONS
-----------------------------------------------------------------
 
 chmod
   Change file or directory permissions (symbolic or octal).
@@ -142,10 +132,6 @@ du  [already in your list]
   -d N          Limit depth to N levels
   --exclude     Exclude files matching a pattern
 
-----------------------------------------------------------------
-ARCHIVES
-----------------------------------------------------------------
-
 tar
   Archive and optionally compress files.
   -c            Create archive
@@ -160,10 +146,6 @@ tar
     Create:   tar -czvf archive.tar.gz /path/
     Extract:  tar -xzvf archive.tar.gz -C /dest/
     List:     tar -tzvf archive.tar.gz
-
-----------------------------------------------------------------
-PROCESSES
-----------------------------------------------------------------
 
 ps
   Snapshot of currently running processes.
@@ -187,10 +169,6 @@ kill / pkill
   -15 (SIGTERM) Graceful terminate — default signal
   -1  (SIGHUP)  Reload config without restart (many daemons)
   -l            List all available signal names
-
-----------------------------------------------------------------
-SYSTEM
-----------------------------------------------------------------
 
 systemctl
   Manage systemd services.
@@ -224,10 +202,6 @@ crontab
     | | └────── day of month (1-31)
     | └──────── hour (0-23)
     └────────── minute (0-59)
-
-----------------------------------------------------------------
-NETWORKING
-----------------------------------------------------------------
 
 curl
   Transfer data to/from URLs.
@@ -267,10 +241,6 @@ ping
   -s N          Set packet size in bytes
   -t TTL        Set time-to-live
 
-----------------------------------------------------------------
-DISK & STORAGE
-----------------------------------------------------------------
-
 lsblk
   List block devices (disks, partitions, LVM) in a tree view.
   -a            Show all devices including empty ones
@@ -297,9 +267,7 @@ mount / umount
   -l            List currently mounted filesystems with labels
   -f (umount)   Lazy unmount — detach when no longer busy
 
-================================================================
-QUICK COMBOS (worth memorising)
-================================================================
+Common Scenarios:
 
 Find large files:          find / -type f -size +100M 2>/dev/null
 Live log filter:           tail -f /var/log/syslog | grep ERROR
@@ -314,4 +282,3 @@ Check service logs:        journalctl -u nginx -f
 Show partition UUIDs:      lsblk -f
 List all open ports:       ss -tlnp
 
-================================================================
