@@ -1,0 +1,317 @@
+================================================================
+           LINUX COMMANDS REFERENCE — FLAGS & USAGE
+================================================================
+
+----------------------------------------------------------------
+TEXT PROCESSING
+----------------------------------------------------------------
+
+awk
+  Pattern scanning and text processing — column extraction,
+  conditional logic, arithmetic on fields.
+  -F ':'        Set field separator (e.g. colon for /etc/passwd)
+  -v var=val    Assign a variable before execution begins
+  'NR==2'       Process only line number 2 (NR = record number)
+  '$2>10'       Condition on field value — print lines where col 2 > 10
+  -f file.awk   Read awk program from a file instead of inline
+
+sed
+  Stream editor — substitution, deletion, and in-place editing.
+  -i            Edit file in-place (add backup ext: -i.bak)
+  -n            Suppress automatic printing; use p flag explicitly
+  -e 'cmd'      Specify multiple expressions inline
+  s/old/new/g   Global substitution (g = all occurrences on line)
+  d             Delete matching lines (e.g. /^#/d deletes comments)
+
+tail
+  Output the last N lines of a file; critical for live log monitoring.
+  -n N          Show last N lines (default 10)
+  -f            Follow — stream new lines as they are appended (live logs)
+  -F            Like -f but re-opens file if rotated (safer for log rotation)
+  -c N          Show last N bytes instead of lines
+
+head
+  Output the first N lines of a file.
+  -n N          Show first N lines
+  -c N          Show first N bytes
+  -q            Quiet — suppress filename headers for multiple files
+
+cut
+  Extract specific fields or byte ranges from each line of a file.
+  -d ':'        Set delimiter character
+  -f 1,3        Select fields 1 and 3
+  -c 1-10       Select characters 1 through 10
+  --complement  Invert selection — keep everything except specified fields
+
+wc
+  Count lines, words, and bytes in a file or stdin.
+  -l            Count lines only
+  -w            Count words only
+  -c            Count bytes
+  -m            Count characters (handles multi-byte UTF-8)
+  -L            Print length of the longest line
+
+grep  [already in your list]
+  Search for patterns in files.
+  -r            Recursive search through directories
+  -i            Case-insensitive match
+  -n            Show line numbers
+  -v            Invert match — show lines that do NOT match
+  -l            Print only filenames with matches
+  -E            Extended regex (same as egrep)
+  -c            Count matching lines
+
+sort  [already in your list]
+  Sort lines of text.
+  -n            Numeric sort
+  -r            Reverse order
+  -k N          Sort by column N
+  -u            Unique — remove duplicate lines after sorting
+  -t ':'        Set field delimiter for -k
+
+uniq  [already in your list]
+  Filter or report repeated lines (input must be sorted first).
+  -c            Prefix lines with count of occurrences
+  -d            Print only duplicate lines
+  -u            Print only unique lines
+  -i            Case-insensitive comparison
+
+----------------------------------------------------------------
+FILE & PERMISSIONS
+----------------------------------------------------------------
+
+chmod
+  Change file or directory permissions (symbolic or octal).
+  -R            Apply recursively to all files in a directory
+  -v            Verbose — print each file as it is changed
+  u/g/o/a       Target user, group, other, or all
+  +x / -x       Add or remove execute bit
+  755 / 644     Octet shorthand — rwxr-xr-x / rw-r--r--
+
+chown
+  Change file owner and/or group.
+  -R            Recursive — change ownership of all files in tree
+  user:group    Set both owner and group in one shot
+  --from=old    Change only if current owner matches (safe swap)
+  -v            Verbose output
+
+ln
+  Create hard or symbolic links between files.
+  -s            Create a symbolic (soft) link instead of hard link
+  -f            Force — remove existing destination before linking
+  -n            Treat destination symlink as a normal file (no follow)
+  -v            Verbose — print each link created
+
+xargs
+  Build and execute commands from stdin.
+  -I {}         Replace {} with each input item in the command
+  -n N          Pass at most N arguments per command invocation
+  -P N          Run N processes in parallel
+  -0            Expect NUL-delimited input (pair with find -print0)
+  -t            Print each command before executing
+
+rsync
+  Fast, incremental file/directory sync — local or over SSH.
+  -a            Archive mode: recursive + preserve perms/timestamps/symlinks
+  -v            Verbose — show transferred files
+  -z            Compress data during transfer
+  --delete      Remove files at destination not present in source
+  --dry-run     Simulate without making changes
+  -e ssh        Use SSH as the transport
+
+find  [already in your list]
+  Search for files in a directory hierarchy.
+  -name         Match by filename (supports wildcards)
+  -type f/d     Match files (f) or directories (d)
+  -mtime -N     Modified within last N days
+  -size +NM     Larger than N megabytes
+  -exec cmd {}  Execute command on each result
+  -print0       NUL-delimited output (safe with xargs -0)
+
+df  [already in your list]
+  Report filesystem disk space usage.
+  -h            Human-readable sizes (KB, MB, GB)
+  -T            Show filesystem type
+  -i            Show inode usage instead of block usage
+  --total       Add a grand total line
+
+du  [already in your list]
+  Estimate file and directory space usage.
+  -h            Human-readable sizes
+  -s            Summary — show total for each argument only
+  -d N          Limit depth to N levels
+  --exclude     Exclude files matching a pattern
+
+----------------------------------------------------------------
+ARCHIVES
+----------------------------------------------------------------
+
+tar
+  Archive and optionally compress files.
+  -c            Create archive
+  -x            Extract archive
+  -v            Verbose — list files being processed
+  -f file.tar   Specify archive filename (always last flag)
+  -z            Compress/decompress with gzip (.tar.gz)
+  -j            Compress/decompress with bzip2 (.tar.bz2)
+  -C /path      Extract into specified directory
+
+  Common combos:
+    Create:   tar -czvf archive.tar.gz /path/
+    Extract:  tar -xzvf archive.tar.gz -C /dest/
+    List:     tar -tzvf archive.tar.gz
+
+----------------------------------------------------------------
+PROCESSES
+----------------------------------------------------------------
+
+ps
+  Snapshot of currently running processes.
+  aux           All processes, all users, with CPU/mem (BSD style)
+  -ef           Full-format listing, all processes (POSIX style)
+  --forest      Show process tree (parent→child relationships)
+  -p PID        Show info for a specific process ID
+  -u user       Filter by user
+
+top / htop
+  Real-time process monitor — CPU, memory, load.
+  -d N          Update interval in seconds
+  -u user       Filter by user (top)
+  -p PID        Monitor specific PID(s)
+  k             Kill a process by PID (interactive, inside top)
+  M / P / T     Sort by memory / CPU / time (htop)
+
+kill / pkill
+  Send signals to processes.
+  -9  (SIGKILL) Force-kill immediately — no cleanup
+  -15 (SIGTERM) Graceful terminate — default signal
+  -1  (SIGHUP)  Reload config without restart (many daemons)
+  -l            List all available signal names
+
+----------------------------------------------------------------
+SYSTEM
+----------------------------------------------------------------
+
+systemctl
+  Manage systemd services.
+  start/stop/restart    Control service state immediately
+  enable/disable        Auto-start at boot (or not)
+  status                Show state, last log lines, PID
+  reload                Re-read config without full restart
+  list-units            List all active units
+  --failed              Show only failed units
+
+journalctl
+  Query systemd's binary journal.
+  -u service        Filter logs for a specific unit/service
+  -f                Follow — tail live log entries
+  -n N              Show last N lines
+  --since 'Xh ago'  Time-bound queries (e.g. '1 hour ago', 'today')
+  -p err            Filter by priority: emerg/crit/err/warning/info/debug
+  -b                Logs from current boot only
+
+crontab
+  Schedule recurring commands.
+  -e            Edit the current user's crontab
+  -l            List current user's cron jobs
+  -r            Remove all cron jobs for current user
+  -u user       Operate on another user's crontab (root only)
+
+  Cron expression format:
+    * * * * *  command
+    | | | | └── day of week (0-7, Sun=0 or 7)
+    | | | └──── month (1-12)
+    | | └────── day of month (1-31)
+    | └──────── hour (0-23)
+    └────────── minute (0-59)
+
+----------------------------------------------------------------
+NETWORKING
+----------------------------------------------------------------
+
+curl
+  Transfer data to/from URLs.
+  -X METHOD     HTTP method: GET POST PUT DELETE etc.
+  -H 'K: V'     Add a request header
+  -d 'body'     Send request body (implies POST)
+  -o file       Write output to file instead of stdout
+  -L            Follow HTTP redirects
+  -s            Silent — suppress progress meter
+  -I            Fetch headers only (HEAD request)
+  --retry N     Retry on transient failures
+
+ssh
+  Open an encrypted remote shell or tunnel.
+  -i keyfile          Use a specific private key
+  -p PORT             Connect on non-default port
+  -L local:host:port  Local port forward
+  -N                  No command — tunnel only, no shell
+  -v / -vvv           Verbose debugging
+  -A                  Agent forwarding — use local keys on remote
+
+netstat / ss
+  Show network connections and listening ports.
+  -t            TCP connections only
+  -u            UDP connections only
+  -l            Listening sockets only
+  -n            Numeric IPs/ports (no name resolution)
+  -p            Show process name/PID using the socket
+  -a            All sockets (listen + established)
+
+  Useful combo: ss -tlnp  (TCP, listening, numeric, with process)
+
+ping
+  Test reachability and latency via ICMP.
+  -c N          Stop after N packets
+  -i N          Interval in seconds between packets
+  -s N          Set packet size in bytes
+  -t TTL        Set time-to-live
+
+----------------------------------------------------------------
+DISK & STORAGE
+----------------------------------------------------------------
+
+lsblk
+  List block devices (disks, partitions, LVM) in a tree view.
+  -a            Show all devices including empty ones
+  -f            Show filesystem type, UUID, and label
+  -o cols       Custom columns e.g. NAME,SIZE,TYPE,MOUNTPOINT,FSTYPE
+  -d            Show disks only — skip partitions/children
+  -p            Print full device paths (e.g. /dev/sda1)
+  -J            Output in JSON format (useful for scripting)
+  -m            Show permissions and owner of device nodes
+
+fdisk
+  Partition table editor for MBR disks (use gdisk for GPT).
+  -l            List all partition tables on all block devices
+  -l /dev/sda   List partitions on a specific disk
+  -u sectors    Display sizes in sectors instead of cylinders
+  (interactive) Run: fdisk /dev/sdX  to enter partition editor
+
+mount / umount
+  Attach or detach a filesystem at a mount point.
+  -t type       Filesystem type: ext4, xfs, nfs, tmpfs etc.
+  -o options    Mount options: ro, rw, noexec, bind, remount
+  --bind        Bind-mount a directory to another path
+  -a            Mount all entries in /etc/fstab
+  -l            List currently mounted filesystems with labels
+  -f (umount)   Lazy unmount — detach when no longer busy
+
+================================================================
+QUICK COMBOS (worth memorising)
+================================================================
+
+Find large files:          find / -type f -size +100M 2>/dev/null
+Live log filter:           tail -f /var/log/syslog | grep ERROR
+Disk usage top dirs:       du -h --max-depth=1 / | sort -rh | head -10
+Who is using a port:       ss -tlnp | grep :80
+Count unique IPs in log:   awk '{print $1}' access.log | sort | uniq -c | sort -rn
+Replace string in file:    sed -i 's/old/new/g' file.txt
+Extract tar.gz:            tar -xzvf archive.tar.gz -C /destination/
+Sync folder over SSH:      rsync -avz ./local/ user@host:/remote/
+Kill process by name:      pkill -9 nginx
+Check service logs:        journalctl -u nginx -f
+Show partition UUIDs:      lsblk -f
+List all open ports:       ss -tlnp
+
+================================================================
