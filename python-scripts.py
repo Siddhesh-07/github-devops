@@ -8,7 +8,6 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-
 class Employee:
     def __init__(self, emp_id, name, department, salary):
         self.emp_id = emp_id
