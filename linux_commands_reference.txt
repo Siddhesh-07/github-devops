@@ -245,7 +245,6 @@ lsblk
   List block devices (disks, partitions, LVM) in a tree view.
   -a            Show all devices including empty ones
   -f            Show filesystem type, UUID, and label
-  -o cols       Custom columns e.g. NAME,SIZE,TYPE,MOUNTPOINT,FSTYPE
   -d            Show disks only — skip partitions/children
   -p            Print full device paths (e.g. /dev/sda1)
   -J            Output in JSON format (useful for scripting)
