@@ -1,1 +1,1 @@
-print("Hello, Just getting started with Git")
+print("Hi, Getting started with git)
