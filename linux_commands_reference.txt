@@ -271,5 +271,4 @@ Sync folder over SSH:      rsync -avz ./local/ user@host:/remote/
 Kill process by name:      pkill -9 nginx
 Check service logs:        journalctl -u nginx -f
 Show partition UUIDs:      lsblk -f
-List all open ports:       ss -tlnp
 
