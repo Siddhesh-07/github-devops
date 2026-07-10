@@ -36,14 +36,6 @@ cut
   -c 1-10       Select characters 1 through 10
   --complement  Invert selection — keep everything except specified fields
 
-wc
-  Count lines, words, and bytes in a file or stdin.
-  -l            Count lines only
-  -w            Count words only
-  -c            Count bytes
-  -m            Count characters (handles multi-byte UTF-8)
-  -L            Print length of the longest line
-
 grep  [already in your list]
   Search for patterns in files.
   -r            Recursive search through directories
